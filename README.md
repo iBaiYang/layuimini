@@ -1,5 +1,9 @@
 # layuimini后台模板
 
+## 分支说明
+
+master分支 是 LAYUI MINI 的iframe版，v2_danye分支 是 LAYUI MINI 的单页版。
+
 ## 项目介绍
 
 最简洁、清爽、易用的layui后台框架模板。
