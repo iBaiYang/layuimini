@@ -4,13 +4,13 @@
  * version:2.0
  * description:layuimini 主体框架扩展
  */
-layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function (exports) {
+layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function (exports) {
     var $ = layui.$,
+        element = layui.element,
         layer = layui.layer,
         miniMenu = layui.miniMenu,
         miniTheme = layui.miniTheme,
-        element = layui.element ,
-        miniTab = layui.miniTab;
+        miniPage = layui.miniPage;
 
     if (!/http(s*):\/\//.test(location.href)) {
         var tips = "请先将项目部署至web容器（Apache/Tomcat/Nginx/IIS/等），否则部分数据将无法显示";
@@ -23,46 +23,44 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * 后台框架初始化
          * @param options.iniUrl   后台初始化接口地址
          * @param options.clearUrl   后台清理缓存接口
-         * @param options.urlHashLocation URL地址hash定位
+         * @param options.renderPageVersion 初始化页面是否加版本号
          * @param options.bgColorDefault 默认皮肤
          * @param options.multiModule 是否开启多模块
          * @param options.menuChildOpen 是否展开子菜单
          * @param options.loadingTime 初始化加载时间
-         * @param options.pageAnim iframe窗口动画
-         * @param options.maxTabNum 最大的tab打开数量
+         * @param options.pageAnim 切换菜单动画
          */
         render: function (options) {
             options.iniUrl = options.iniUrl || null;
             options.clearUrl = options.clearUrl || null;
-            options.urlHashLocation = options.urlHashLocation || false;
+            options.renderPageVersion = options.renderPageVersion || false;
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
             options.loadingTime = options.loadingTime || 1;
             options.pageAnim = options.pageAnim || false;
-            options.maxTabNum = options.maxTabNum || 20;
             $.getJSON(options.iniUrl, function (data) {
                 if (data == null) {
                     miniAdmin.error('暂无菜单信息')
                 } else {
                     miniAdmin.renderLogo(data.logoInfo);
                     miniAdmin.renderClear(options.clearUrl);
-                    miniAdmin.renderHome(data.homeInfo);
                     miniAdmin.renderAnim(options.pageAnim);
-                    miniAdmin.listen();
+                    miniAdmin.listen({
+                        homeInfo:data.homeInfo,
+                        multiModule: options.multiModule,
+                    });
                     miniMenu.render({
                         menuList: data.menuInfo,
                         multiModule: options.multiModule,
                         menuChildOpen: options.menuChildOpen
                     });
-                    miniTab.render({
-                        filter: 'layuiminiTab',
-                        urlHashLocation: options.urlHashLocation,
-                        multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen,
-                        maxTabNum: options.maxTabNum,
+                    miniPage.render({
+                        homeInfo:data.homeInfo,
                         menuList: data.menuInfo,
-                        homeInfo: data.homeInfo,
+                        multiModule: options.multiModule,
+                        renderPageVersion: options.renderPageVersion,
+                        menuChildOpen: options.menuChildOpen,
                         listenSwichCallback: function () {
                             miniAdmin.renderDevice();
                         }
@@ -83,19 +81,8 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * @param data
          */
         renderLogo: function (data) {
-            var html = '<a href="' + data.href + '"><img src="' + data.image + '" alt="logo"><h1>' + data.title + '</h1></a>';
+            var html = '<a href="javascript:;"><img src="' + data.image + '" alt="logo"><h1>' + data.title + '</h1></a>';
             $('.layuimini-logo').html(html);
-        },
-
-        /**
-         * 初始化首页
-         * @param data
-         */
-        renderHome: function (data) {
-            sessionStorage.setItem('layuiminiHomeHref', data.href);
-            $('#layuiminiHomeTabId').html('<span class="layuimini-tab-active"></span><span class="disable-close">' + data.title + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>');
-            $('#layuiminiHomeTabId').attr('lay-id', data.href);
-            $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0"  src="' + data.href + '"></iframe>');
         },
 
         /**
@@ -107,29 +94,23 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
         },
 
         /**
-         * 初始化iframe窗口动画
+         * 切换菜单动画
          * @param anim
          */
         renderAnim: function (anim) {
             if (anim) {
                 $('#layuimini-bg-color').after('<style id="layuimini-page-anim">' +
-                    '.layui-tab-item.layui-show {animation:moveTop 1s;-webkit-animation:moveTop 1s;animation-fill-mode:both;-webkit-animation-fill-mode:both;position:relative;height:100%;-webkit-overflow-scrolling:touch;}\n' +
-                    '@keyframes moveTop {0% {opacity:0;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px);}\n' +
-                    '    100% {opacity:1;-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0);}\n' +
+                    '.layuimini-page-anim {-webkit-animation-name:layuimini-upbit;-webkit-animation-duration:.3s;-webkit-animation-fill-mode:both;}\n' +
+                    '@keyframes layuimini-upbit {0% {transform:translate3d(0,30px,0);opacity:.3;}\n' +
+                    '100% {transform:translate3d(0,0,0);opacity:1;}\n' +
                     '}\n' +
-                    '@-o-keyframes moveTop {0% {opacity:0;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px);}\n' +
-                    '    100% {opacity:1;-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0);}\n' +
-                    '}\n' +
-                    '@-moz-keyframes moveTop {0% {opacity:0;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px);}\n' +
-                    '    100% {opacity:1;-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0);}\n' +
-                    '}\n' +
-                    '@-webkit-keyframes moveTop {0% {opacity:0;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px);}\n' +
-                    '    100% {opacity:1;-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0);}\n' +
-                    '}' +
                     '</style>');
             }
         },
 
+        /**
+         * 进入全屏
+         */
         fullScreen: function () {
             var el = document.documentElement;
             var rfs = el.requestFullScreen || el.webkitRequestFullScreen;
@@ -241,8 +222,10 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 
         /**
          * 监听
+         * @param options
          */
-        listen: function () {
+        listen: function (options) {
+            options.homeInfo = options.homeInfo || {};
 
             /**
              * 清理
@@ -275,7 +258,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
              * 刷新
              */
             $('body').on('click', '[data-refresh]', function () {
-                $(".layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload();
+                miniPage.refresh(options);
                 miniAdmin.success('刷新成功');
             });
 
@@ -317,7 +300,6 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                     }
                 }
             });
-
 
             /**
              * 全屏
