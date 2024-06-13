@@ -1,18 +1,20 @@
-# layuimini后台模板
-
-## 分支说明
-
-master分支 是 LAYUI MINI 的iframe版，v2_danye分支 是 LAYUI MINI 的单页版。
+# 概述
 
 ## 项目介绍
 
-最简洁、清爽、易用的layui后台框架模板。
+后台admin前端模板，基于layui2.5.4以及font-awesome-4.7.0进行编写的最简洁、清爽、易用的后台框架模板。
 
-特意注明：项目来源 LAYUI MINI  http://layuimini.99php.cn/
+项目来源LAYUI MINI，官网：[http://layuimini.99php.cn](http://layuimini.99php.cn) 
+
+## 分支说明
+
+master分支是iframe多tab版，v2_danye分支是onepage单页版。
 
 ## 使用
 
-搭建html服务，项目地址 index.html
+搭建Html服务，入口地址 `index.html` 
+
+layuimini官方文档地址 [http://layuimini.99php.cn/docs/](http://layuimini.99php.cn/docs/)
 
 ## 主要特性
 
@@ -28,19 +30,42 @@ master分支 是 LAYUI MINI 的iframe版，v2_danye分支 是 LAYUI MINI 的单�
 
 # layuimini相关
 
-## 代码仓库(iframe 多tab版)
+## iframe 多tab版
+
+### 代码仓库
 
  * 在线预览地址：[http://layuimini.99php.cn/iframe/v2/index.html](http://layuimini.99php.cn/iframe/v2/index.html)
  * GitHub仓库地址：[https://github.com/zhongshaofa/layuimini/tree/v2](https://github.com/zhongshaofa/layuimini/tree/v2)
  * Gitee仓库地址：[https://gitee.com/zhongshaofa/layuimini/tree/v2](https://gitee.com/zhongshaofa/layuimini/tree/v2)
  
-## 下载方式
+### 下载方式
 
  * GitHub下载命令：`git clone https://github.com/zhongshaofa/layuimini -b v2`
  * Gitee下载命令：`git clone https://gitee.com/zhongshaofa/layuimini -b v2`
+ 
+## onepage 单页版
 
-### 发行版地址
+### 代码仓库
+
+ * 在线预览地址：[http://layuimini.99php.cn/onepage/v2/index.html](http://layuimini.99php.cn/onepage/v2/index.html)
+ * GitHub仓库地址：[https://github.com/zhongshaofa/layuimini/tree/v2-onepage](https://github.com/zhongshaofa/layuimini/tree/v2-onepage)
+ * Gitee仓库地址：[https://gitee.com/zhongshaofa/layuimini/tree/v2-onepage](https://gitee.com/zhongshaofa/layuimini/tree/v2-onepage)
+
+### 下载方式
+
+ * GitHub下载命令：`git clone https://github.com/zhongshaofa/layuimini -b v2-onepage`
+ * Gitee下载命令：`git clone https://gitee.com/zhongshaofa/layuimini -b v2-onepage`
+ 
+## 发行版地址
 
 * GitHub发版地址：[https://github.com/zhongshaofa/layuimini/releases](https://github.com/zhongshaofa/layuimini/releases)
 * Gitee发版地址：[https://gitee.com/zhongshaofa/layuimini/releases](https://gitee.com/zhongshaofa/layuimini/releases)
- 
+
+# 参考
+
+* Layuimini 官网：[http://layuimini.99php.cn](http://layuimini.99php.cn)
+* Layuimini：[https://github.com/zhongshaofa/layuimini](https://github.com/zhongshaofa/layuimini)
+* Layui 官网： [https://layui.dev](https://layui.dev)
+* Layui：[https://github.com/layui/layui](https://github.com/layui/layui)
+* Jquery：[https://github.com/jquery/jquery](https://github.com/jquery/jquery)
+
